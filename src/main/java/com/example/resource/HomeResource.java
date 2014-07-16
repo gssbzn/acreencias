@@ -1,4 +1,4 @@
-package com.example;
+package com.example.resource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,15 +20,15 @@ public class HomeResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
+    public String getHello() {
         return "Hello World!";
     }
     
     @GET
     @Path("/hello/{param}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt2(@PathParam(value = "param") String message) {
-        return "Hello World2!: " + message;
+    public String getHello(@PathParam(value = "param") String message) {
+        return "Hello " + message + "!";
     }
     
 }
