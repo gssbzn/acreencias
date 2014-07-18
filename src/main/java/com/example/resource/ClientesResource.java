@@ -54,7 +54,7 @@ public class ClientesResource {
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Cliente entity) {
+    public void update(@PathParam("id") Integer id, Cliente entity) {
     	System.out.println("PUT");
     	if(dao.find(id) == null)
     		throw new WebApplicationException(404);

@@ -103,4 +103,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jetty.version>9.0.6.v20130930</jetty.version>
     </properties>
+    <ciManagement>
+    	<system>travis-ci</system>
+    	<url>https://travis-ci.org/gssbzn/acreencias</url>
+    </ciManagement>
 </project>

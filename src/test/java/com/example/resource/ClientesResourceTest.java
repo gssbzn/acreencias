@@ -59,22 +59,22 @@ public class ClientesResourceTest extends JerseyTest {
 		Cliente c = (Cliente)target().path("clientes/1").request().get(Cliente.class);
 		//System.out.println(c);
 		assertEquals(cli, c);
-		int size = dao.findAll().size();
-    	System.out.println("Show size=" + size);
 	}
 
 	@Test
 	public void testIndex() {
 		GenericType<Collection<Cliente>> genericRootElement = new GenericType<Collection<Cliente>>() {};
-		Cliente cli = firstOrCreateCliente();
+		
 		Collection<Cliente> clientes = target().path("clientes").request().get(genericRootElement);
-		for(Cliente cliente : clientes) {
-			assertEquals(cli.getCedula(), cliente.getCedula());
-			assertEquals(cli.getNombre(), cliente.getNombre());
-			assertEquals(cli, cliente);
-		}
-		int size = dao.findAll().size();
-    	System.out.println("Index size=" + size);
+		
+		/*for(Cliente cliente : clientes) {
+			System.out.println(cli);
+			System.out.println(cliente);
+			//assertEquals(cli.getCedula(), cliente.getCedula());
+			//assertEquals(cli.getNombre(), cliente.getNombre());
+			//assertEquals(cli, cliente);
+		}*/
+		assertEquals(dao.findAll().size(), clientes.size());
 	}
 
 	@Test
@@ -88,29 +88,29 @@ public class ClientesResourceTest extends JerseyTest {
 	}
 
 	@Test
-	public void testEdit() {
-		firstOrCreateCliente();
+	public void testUpdate() {
+		Cliente cliente = firstOrCreateCliente();
 		Cliente cli = new Cliente();
 		cli.setCedula("V-2");
 		cli.setNombre("Prueba 2");		
-		target().path("clientes/1").request("application/xml").put(Entity.xml(cli), Cliente.class);
-		Cliente cli2 = (Cliente)target().path("clientes/1").request().get(Cliente.class);
+		target().path("clientes/" + cliente.getId()).request("application/xml").put(Entity.xml(cli), Cliente.class);
+		Cliente cli2 = (Cliente)target().path("clientes/" + cliente.getId()).request().get(Cliente.class);
 		assertEquals(cli.getCedula(), cli2.getCedula());
 		assertEquals(cli.getNombre(), cli2.getNombre());		
 	}
 
 	@Test (expected=WebApplicationException.class)
 	public void testRemove() {
-		firstOrCreateCliente();
-		target().path("clientes/1").request().delete();
-		target().path("clientes/1").request().get(Cliente.class);
+		Cliente cliente = firstOrCreateCliente();
+		target().path("clientes/" + cliente.getId()).request().delete();
+		target().path("clientes/" + cliente.getId()).request().get(Cliente.class);
 	}
 	
 	private Cliente firstOrCreateCliente() {
 		Cliente c = null;
 		try {
-			c = (Cliente)target().path("clientes/1").request().get(Cliente.class);
-		} catch (WebApplicationException ex) {
+			c = dao.findAll().get(0);
+		} catch (IndexOutOfBoundsException ex) {
 			c = new Cliente();
 			c.setCedula("V-1");
 			c.setNombre("Prueba 1");
