@@ -8,21 +8,21 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * @author guss
+ * @author Gustavo Bazan
  *
  */
 @XmlRootElement
 @XmlType (propOrder={"id","cliente","tipo","saldo"})
 public final class Cuenta implements Model<Integer>, Serializable {
-	/**	 */
-	private static final long serialVersionUID = -1768584903284441598L;
-	
-	private Integer id;
-	private BigDecimal saldo = BigDecimal.ZERO;
-	private String tipo;
-	private Cliente cliente;
-	
-	public Cuenta() {
+    /**	 */
+    private static final long serialVersionUID = -1768584903284441598L;
+
+    private Integer id;
+    private BigDecimal saldo = BigDecimal.ZERO;
+    private String tipo;
+    private Cliente cliente;
+
+    public Cuenta() {
     }
 
     public Cuenta(Integer id) {
@@ -36,42 +36,42 @@ public final class Cuenta implements Model<Integer>, Serializable {
     }
 
     @Override
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
     @Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public BigDecimal getSaldo() {
-		return saldo;
-	}
+    public BigDecimal getSaldo() {
+        return saldo;
+    }
 
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
-	}
+    public void setSaldo(BigDecimal saldo) {
+        this.saldo = saldo;
+    }
 
-	public String getTipo() {
-		return tipo;
-	}
+    public String getTipo() {
+        return tipo;
+    }
 
-	public void setTipo(String tipo) {
-		if(!TipoCuenta.isValid(tipo))
-			throw new IllegalArgumentException("Tipo de Cuenta Invalido");
-		this.tipo = tipo;
-	}
+    public void setTipo(String tipo) {
+        if(!TipoCuenta.isValid(tipo))
+            throw new IllegalArgumentException("Tipo de Cuenta Invalido");
+        this.tipo = tipo;
+    }
 
-	public Cliente getCliente() {
-		return cliente;
-	}
+    public Cliente getCliente() {
+        return cliente;
+    }
 
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-	
-	@Override
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    @Override
     public int hashCode() {
     	final int prime = 31;
         int hash = 1;
@@ -79,7 +79,7 @@ public final class Cuenta implements Model<Integer>, Serializable {
         return hash;
     }
 	
-	@Override
+    @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Cuenta)) {

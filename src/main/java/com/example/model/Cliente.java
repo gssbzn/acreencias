@@ -9,18 +9,18 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * @author guss
+ * @author Gustavo Bazan
  *
  */
 @XmlRootElement
 @XmlType (propOrder={"id","cedula","nombre"})
 public final class Cliente implements Model<Integer>, Serializable {	
     /**	 */
-	private static final long serialVersionUID = -3956424980931876024L;
-	
-	private Integer id;
-	private String nombre;
-	private String cedula;
+    private static final long serialVersionUID = -3956424980931876024L;
+
+    private Integer id;
+    private String nombre;
+    private String cedula;
     private Collection<Cuenta> cuentasCollection;
     
     public Cliente() {
@@ -33,32 +33,32 @@ public final class Cliente implements Model<Integer>, Serializable {
     }
 
     @Override
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	
-	public String getNombre() {
-		return nombre;
-	}
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public String getCedula() {
-		return cedula;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
+    public String getCedula() {
+        return cedula;
+    }
 
-	@XmlTransient
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    @XmlTransient
     public Collection<Cuenta> getCuentasCollection() {
         return cuentasCollection;
     }

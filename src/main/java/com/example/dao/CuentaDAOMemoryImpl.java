@@ -12,111 +12,111 @@ import com.example.model.Cuenta;
 
 /**
  * 
- * @author guss
+ * @author Gustavo Bazan
  *
  */
 public class CuentaDAOMemoryImpl implements CuentaDAO {
-	private static CuentaDAOMemoryImpl INSTANCE = new CuentaDAOMemoryImpl();
+    private static final CuentaDAOMemoryImpl INSTANCE = new CuentaDAOMemoryImpl();
 	
-	private static final Logger logger = Logger.getLogger(CuentaDAOMemoryImpl.class.toString());
-	private static final Vector<Cuenta> cuentas = new Vector<Cuenta>();
-	private static AtomicInteger LAST_ID;
+    private static final Logger logger = Logger.getLogger(CuentaDAOMemoryImpl.class.toString());
+    private static final Vector<Cuenta> cuentas = new Vector<>();
+    private static AtomicInteger LAST_ID;
 	
-	private CuentaDAOMemoryImpl(){
-		LAST_ID = new AtomicInteger(0);
-	}
-	
-	public static CuentaDAOMemoryImpl getInstance() {
+    private CuentaDAOMemoryImpl(){
+        LAST_ID = new AtomicInteger(0);
+    }
+
+    public static CuentaDAOMemoryImpl getInstance() {
         return INSTANCE;
     }
 	
-	public Integer incrementCount() {
-		return LAST_ID.incrementAndGet();
-	}
+    public Integer incrementCount() {
+        return LAST_ID.incrementAndGet();
+    }
+
+    @Override
+    public Cuenta create(Cuenta cuenta) {
+        cuenta.setId(incrementCount());
+        cuentas.add(cuenta);
+        logger.info(cuenta.toString());
+        return cuenta;
+    }
+
+    @Override
+    public boolean update(Cuenta cuenta) {
+        int index = cuentas.indexOf(cuenta);
+        if(index < 0)
+            return false;
+        cuentas.remove(index);
+        if(index < cuentas.size())
+            cuentas.add(index, cuenta);
+        else
+            cuentas.add(cuenta);
+        return true;
+    }
+
+    @Override
+    public boolean remove(Cuenta cuenta) {		
+        return cuentas.remove(cuenta);
+    }
+
+    @Override
+    public Cuenta find(Integer id) {
+        Cuenta cuenta = null;
+        for(Cuenta o : cuentas){
+            if(o.getId().equals(id)){
+                cuenta = o;
+                break;
+            }
+        }
+        return cuenta;
+    }
+
+    @Override
+    public Cuenta first() {		 
+            try {
+                    return cuentas.firstElement();
+            } catch (NoSuchElementException ex){
+                    logger.warning(ex.getMessage());
+                    return null;
+            }
+    }
+
+    @Override
+    public Cuenta last() {
+            try {
+                    return cuentas.lastElement();
+            } catch (NoSuchElementException ex){
+                    logger.warning(ex.getMessage());
+                    return null;
+            }
+    }
+
+    @Override
+    public List<Cuenta> findAll() {		
+            return cuentas;
+    }
+
+    @Override
+    public Integer count(){
+            return cuentas.size();
+    }
 	
 	@Override
-	public Cuenta create(Cuenta cuenta) {
-		cuenta.setId(incrementCount());
-		cuentas.add(cuenta);
-		logger.info(cuenta.toString());
-		return cuenta;
-	}
+    public List<Cuenta> findCuentasCliente(Integer cliente_id) {
+        ClienteDAO clienteDao = DAOFactory.getClienteDAO();		
+        Cliente cliente = clienteDao.find(cliente_id);
+        List<Cuenta> cuentasTemp = new  ArrayList<Cuenta>();
 
-	@Override
-	public boolean update(Cuenta cuenta) {
-		int index = cuentas.indexOf(cuenta);
-		if(index < 0)
-			return false;
-		cuentas.remove(index);
-		if(index < cuentas.size())
-			cuentas.add(index, cuenta);
-		else
-			cuentas.add(cuenta);
-		return true;
-	}
+        for(Cuenta cuenta : cuentas){
+            if(cuenta.getCliente().equals(cliente))
+                cuentasTemp.add(cuenta);
+        }
+        return cuentasTemp;
+    }
 
-	@Override
-	public boolean remove(Cuenta cuenta) {		
-		return cuentas.remove(cuenta);
-	}
-
-	@Override
-	public Cuenta find(Integer id) {
-		Cuenta cuenta = null;
-		for(Cuenta o : cuentas){
-			if(o.getId() == id){
-				cuenta = o;
-				break;
-			}
-		}
-		return cuenta;
-	}
-
-	@Override
-	public Cuenta first() {		 
-		try {
-			return cuentas.firstElement();
-		} catch (NoSuchElementException ex){
-			logger.warning(ex.getMessage());
-			return null;
-		}
-	}
-
-	@Override
-	public Cuenta last() {
-		try {
-			return cuentas.lastElement();
-		} catch (NoSuchElementException ex){
-			logger.warning(ex.getMessage());
-			return null;
-		}
-	}
-	
-	@Override
-	public List<Cuenta> findAll() {		
-		return cuentas;
-	}
-	
-	@Override
-	public Integer count(){
-		return cuentas.size();
-	}
-	
-	@Override
-	public List<Cuenta> findCuentasCliente(Integer cliente_id) {
-		ClienteDAO clienteDao = DAOFactory.getClienteDAO();		
-		Cliente cliente = clienteDao.find(cliente_id);
-		List<Cuenta> cuentasTemp = new  ArrayList<Cuenta>();
-		
-		for(Cuenta cuenta : cuentas){
-			if(cuenta.getCliente().equals(cliente))
-				cuentasTemp.add(cuenta);
-		}
-		return cuentasTemp;
-	}
-	
-	public void empty(){
-		cuentas.clear();
-		LAST_ID = new AtomicInteger(0);
-	}
+    public void empty(){
+        cuentas.clear();
+        LAST_ID = new AtomicInteger(0);
+    }
 }

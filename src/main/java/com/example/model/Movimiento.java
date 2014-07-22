@@ -8,60 +8,67 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * @author guss
+ * @author Gustavo Bazan
  *
  */
 @XmlRootElement
 @XmlType (propOrder={"id","cuenta","tipo","monto"})
 public final class Movimiento implements Model<Integer>, Serializable {
-	/**	 */
-	private static final long serialVersionUID = 6778400152607853715L;
+    /**	 */
+    private static final long serialVersionUID = 6778400152607853715L;
+
+    private Integer id;	
+    private Cuenta cuenta;
+    private String tipo;
+    private BigDecimal monto;
+
+    public Movimiento() {		
+    }
+
 	
-	private Integer id;	
-	private Cuenta cuenta;
-	private String tipo;
-	private BigDecimal monto;
-	
-	public Movimiento() {		
-	}
+    public Movimiento(Integer id, String tipo, BigDecimal monto) {        
+        this.id = id;
+        this.tipo = tipo;
+        this.monto = monto;
+    }
 
-	@Override
-	public Integer getId() {
-		return id;
-	}
+    @Override
+    public Integer getId() {
+        return id;
+    }
 
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}	
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }	
 
-	public Cuenta getCuenta() {
-		return cuenta;
-	}
+    public Cuenta getCuenta() {
+            return cuenta;
+    }
 
-	public void setCuenta(Cuenta cuenta) {
-		this.cuenta = cuenta;
-	}
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+    }
 
-	public String getTipo() {
-		return tipo;
-	}
+    public String getTipo() {
+        return tipo;
+    }
 
-	public void setTipo(String tipo) {
-		if(!TipoMovimiento.isValid(tipo))
-			throw new IllegalArgumentException("Tipo de Movimiento Invalido");
-		this.tipo = tipo;
-	}
+    public void setTipo(String tipo) {
+        if(!TipoMovimiento.isValid(tipo))
+            throw new IllegalArgumentException("Tipo de Movimiento Invalido");
+        this.tipo = tipo;
+    }
 
-	public BigDecimal getMonto() {
-		return monto;
-	}
+    public BigDecimal getMonto() {
+        return monto;
+    }
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
-	}
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
 
-	@Override
+    @Override
     public int hashCode() {
     	final int prime = 31;
         int hash = 1;
@@ -69,7 +76,7 @@ public final class Movimiento implements Model<Integer>, Serializable {
         return hash;
     }
 	
-	@Override
+    @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Movimiento)) {

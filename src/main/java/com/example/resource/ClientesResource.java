@@ -19,17 +19,22 @@ import com.example.dao.ClienteDAO;
 import com.example.dao.DAOFactory;
 import com.example.model.Cliente;
 
+/**
+ * 
+ * @author Gustavo Bazan
+ *
+ */
 @Path("clientes")
 public class ClientesResource {	
-	private final ClienteDAO dao;
-	
-	private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
-	
-	public ClientesResource(){		
-		dao = DAOFactory.getClienteDAO();
-	}
-	
-	@GET
+    private final ClienteDAO dao;
+
+    private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
+
+    public ClientesResource(){		
+        dao = DAOFactory.getClienteDAO();
+    }
+
+    @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Cliente show(@PathParam("id") Integer id) {	

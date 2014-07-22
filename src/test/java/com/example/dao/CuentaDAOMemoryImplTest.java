@@ -14,6 +14,11 @@ import com.example.model.Cliente;
 import com.example.model.Cuenta;
 import com.example.model.TipoCuenta;
 
+/**
+ * 
+ * @author Gustavo Bazan
+ *
+ */
 public class CuentaDAOMemoryImplTest {
 	
 	private static CuentaDAOMemoryImpl cuentaDao;
@@ -21,19 +26,19 @@ public class CuentaDAOMemoryImplTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		clienteDao = (ClienteDAOMemoryImpl) DAOFactory.getClienteDAO();
+		cuentaDao = (CuentaDAOMemoryImpl) DAOFactory.getCuentaDAO();
 		
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		
+		clienteDao = null;
+		cuentaDao = null;
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		clienteDao = (ClienteDAOMemoryImpl) DAOFactory.getClienteDAO();
-		cuentaDao = (CuentaDAOMemoryImpl) DAOFactory.getCuentaDAO();
-		
 		Cliente cliente = clienteDao.create(new Cliente(1, "Prueba 1", "V-1"));
 		Cuenta cuenta = new Cuenta(1,BigDecimal.ZERO,TipoCuenta.ACREENCIA.getValue());
 		cuenta.setCliente(cliente);

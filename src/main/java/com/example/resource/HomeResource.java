@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  * Root resource (exposed at "/" path)
+ * @author Gustavo Bazan
  */
 @Path("/")
 public class HomeResource {

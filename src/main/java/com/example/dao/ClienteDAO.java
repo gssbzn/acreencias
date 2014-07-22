@@ -4,7 +4,7 @@ import com.example.model.Cliente;
 
 /**
  * 
- * @author guss
+ * @author Gustavo Bazan
  *
  */
 public interface ClienteDAO extends AbstractDAO<Cliente, Integer> {

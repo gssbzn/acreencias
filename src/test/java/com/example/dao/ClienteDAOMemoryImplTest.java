@@ -10,6 +10,11 @@ import org.junit.Test;
 
 import com.example.model.Cliente;
 
+/**
+ * 
+ * @author Gustavo Bazan
+ *
+ */
 public class ClienteDAOMemoryImplTest {
 	
 	private static ClienteDAOMemoryImpl dao;

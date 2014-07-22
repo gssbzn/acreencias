@@ -25,6 +25,11 @@ import com.example.model.Cliente;
 import com.example.model.Cuenta;
 import com.example.model.TipoCuenta;
 
+/**
+ * 
+ * @author Gustavo Bazan
+ *
+ */
 public class CuentasResourceTest extends JerseyTest {
 	
 	private static ClienteDAO clienteDao;

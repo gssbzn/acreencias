@@ -12,22 +12,22 @@ import com.example.model.Model;
  */
 public interface AbstractDAO<T extends Model<K>, K> {
 	
-	/**
-	 * Store a new Object of Type T
-	 * @param object
-	 * 			Object to create
-	 * @return
-	 * 			The Created Object
-	 */
-	public T create(T object);
+    /**
+     * Store a new Object of Type T
+     * @param object
+     * 			Object to create
+     * @return
+     * 			The Created Object
+     */
+    public T create(T object);
 
-	/**
-	 * Update the given Object
-	 * @param object
-	 * 			Object to Update
-	 * @return
-	 * 			{@code true} if successful update
-	 */
+    /**
+     * Update the given Object
+     * @param object
+     * 			Object to Update
+     * @return
+     * 			{@code true} if successful update
+     */
     public boolean update(T object);
 
     /**

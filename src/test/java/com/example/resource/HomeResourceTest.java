@@ -10,6 +10,11 @@ import static org.junit.Assert.assertEquals;
 
 import com.example.resource.HomeResource;
 
+/**
+ * 
+ * @author Gustavo Bazan
+ *
+ */
 public class HomeResourceTest extends JerseyTest {
 
     @Override

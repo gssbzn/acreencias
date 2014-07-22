@@ -21,6 +21,11 @@ import com.example.dao.ClienteDAO;
 import com.example.dao.DAOFactory;
 import com.example.model.Cliente;
 
+/**
+ * 
+ * @author Gustavo Bazan
+ *
+ */
 public class ClientesResourceTest extends JerseyTest {
 	
 	private static ClienteDAO dao;

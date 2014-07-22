@@ -29,26 +29,26 @@ import com.example.model.Cuenta;
 @Path("clientes/{cliente_id}/cuentas")
 public class CuentasResource {
 
-	private final ClienteDAO clienteDao;
-	private final CuentaDAO cuentaDao;
-	
-	private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
-	
-	public CuentasResource(){		
-		clienteDao = DAOFactory.getClienteDAO();
-		cuentaDao = DAOFactory.getCuentaDAO();
-	}
-	
-	@GET
+    private final ClienteDAO clienteDao;
+    private final CuentaDAO cuentaDao;
+
+    private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
+
+    public CuentasResource(){		
+        clienteDao = DAOFactory.getClienteDAO();
+        cuentaDao = DAOFactory.getCuentaDAO();
+    }
+
+    @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Cuenta show(@PathParam("cliente_id") Integer cliente_id, @PathParam("id") Integer id) {	
-		logger.info("SHOW");
-		Cliente cliente = clienteDao.find(cliente_id);		
-		Cuenta cuenta = cuentaDao.find(id);
-		if(cliente == null || cuenta == null)
-			throw new WebApplicationException(404);
-		return cuenta;
+        logger.info("SHOW");
+        Cliente cliente = clienteDao.find(cliente_id);		
+        Cuenta cuenta = cuentaDao.find(id);
+        if(cliente == null || cuenta == null)
+            throw new WebApplicationException(404);
+        return cuenta;
     }
 
     @GET    
@@ -56,8 +56,8 @@ public class CuentasResource {
     public List<Cuenta> index(@PathParam("cliente_id") Integer cliente_id) {
     	logger.info("INDEX");
     	Cliente cliente = clienteDao.find(cliente_id);    	
-		if(cliente == null)
-			throw new WebApplicationException(404);
+        if(cliente == null)
+            throw new WebApplicationException(404);
         return cuentaDao.findCuentasCliente(cliente_id);
     }
     
@@ -68,8 +68,9 @@ public class CuentasResource {
     	logger.info("CREATE");
     	Cliente cliente = clienteDao.find(cliente_id);
     	if(cliente == null)
-    		throw new WebApplicationException(404);
-    	entity.setCliente(cliente);
+            throw new WebApplicationException(404);
+    	
+        entity.setCliente(cliente);
     	Cuenta cu = (Cuenta) cuentaDao.create(entity);    	
         return Response.created(null).entity(cu).build();
     }
@@ -80,7 +81,7 @@ public class CuentasResource {
     public void update(@PathParam("cliente_id") Integer cliente_id, @PathParam("id") Integer id, Cuenta entity) {
     	logger.info("PUT");
     	if(cuentaDao.find(id) == null)
-    		throw new WebApplicationException(404);
+            throw new WebApplicationException(404);
     	entity.setId(id);
         cuentaDao.update(entity);
     }
