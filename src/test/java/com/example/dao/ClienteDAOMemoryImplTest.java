@@ -49,8 +49,7 @@ public class ClienteDAOMemoryImplTest {
 		Cliente cli2 = dao.create(cli);
 		assertNotNull(cli2.getId());
 		assertEquals(cli.getNombre(), cli2.getNombre());
-		assertEquals(cli.getCedula(), cli2.getCedula());
-		
+		assertEquals(cli.getCedula(), cli2.getCedula());		
 	}
 	
 	@Test
@@ -68,14 +67,6 @@ public class ClienteDAOMemoryImplTest {
 		Cliente cli = new Cliente(1, "Prueba 1", "V-1");
 		Cliente cliente = dao.find(1);
 		assertEquals(cli, cliente);
-	}
-
-	@Test
-	public void testFindAll() {
-		Cliente cli = new Cliente(1, "Prueba 1", "V-1");
-		for(Cliente cliente : dao.findAll()){
-			assertEquals(cli, cliente);
-		}
 	}
 
 }

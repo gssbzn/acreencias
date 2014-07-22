@@ -95,14 +95,5 @@ public class MovimientoDAOMemoryImplTest {
 		Movimiento movimiento2 = movimientoDao.find(1);
 		assertEquals(movimiento, movimiento2);
 	}
-
-	@Test
-	public void testFindAll() {
-		Movimiento movimiento = new Movimiento(1,TipoMovimiento.DEPOSITO.getValue(),BigDecimal.ONE);
-		for(Movimiento movimiento2 : movimientoDao.findAll()){
-			assertEquals(movimiento, movimiento2);
-		}
-	}
-
 }
 

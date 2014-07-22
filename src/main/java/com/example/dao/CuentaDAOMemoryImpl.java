@@ -74,32 +74,32 @@ public class CuentaDAOMemoryImpl implements CuentaDAO {
 
     @Override
     public Cuenta first() {		 
-            try {
-                    return cuentas.firstElement();
-            } catch (NoSuchElementException ex){
-                    logger.warning(ex.getMessage());
-                    return null;
-            }
+        try {
+            return cuentas.firstElement();
+        } catch (NoSuchElementException ex){
+            logger.warning(ex.getMessage());
+            return null;
+        }
     }
 
     @Override
     public Cuenta last() {
-            try {
-                    return cuentas.lastElement();
-            } catch (NoSuchElementException ex){
-                    logger.warning(ex.getMessage());
-                    return null;
-            }
+        try {
+            return cuentas.lastElement();
+        } catch (NoSuchElementException ex){
+            logger.warning(ex.getMessage());
+            return null;
+        }
     }
 
     @Override
     public List<Cuenta> findAll() {		
-            return cuentas;
+        return cuentas;
     }
 
     @Override
     public Integer count(){
-            return cuentas.size();
+        return cuentas.size();
     }
 	
 	@Override
