@@ -1,20 +1,43 @@
 package com.example.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Logger;
 
 import com.example.model.Cliente;
 
+/**
+ * 
+ * @author Gustavo Bazan
+ *
+ */
 public class ClienteDAOMemoryImpl implements ClienteDAO {
+	private static ClienteDAOMemoryImpl INSTANCE = new ClienteDAOMemoryImpl();
 	
-	private static List<Cliente> clientes = new ArrayList<Cliente>();
-	private static Integer id = 0;
+	private static final Logger logger = Logger.getLogger(ClienteDAOMemoryImpl.class.toString());
+	private static Vector<Cliente> clientes;
+	private static AtomicInteger LAST_ID;
+	
+	private ClienteDAOMemoryImpl(){
+		clientes = new Vector<Cliente>();
+		LAST_ID = new AtomicInteger(0);
+	}
+	
+	public static ClienteDAOMemoryImpl getInstance() {
+        return INSTANCE;
+    }
+	
+	public Integer incrementCount() {
+		return LAST_ID.incrementAndGet();
+	}
 	
 	@Override
 	public Cliente create(Cliente cliente) {
-		cliente.setId(++id);
+		cliente.setId(incrementCount());
 		clientes.add(cliente);
-		System.out.println(cliente);
+		logger.info(cliente.toString());
 		return cliente;
 	}
 
@@ -39,17 +62,50 @@ public class ClienteDAOMemoryImpl implements ClienteDAO {
 	@Override
 	public Cliente find(Integer id) {
 		Cliente cliente = null;
-		for(Cliente cli : clientes){
-			if(cli.getId() == id){
-				cliente = cli;
+		//Optional<Cliente>  c = clientes.stream().parallel().filter(c->c.getId().equals(id)).findFirst();
+		for(Cliente o : clientes){
+			if(o.getId() == id){
+				cliente = o;
 				break;
 			}
 		}
 		return cliente;
 	}
+	
+	@Override
+	public Cliente first() {		 
+		try {
+			return clientes.firstElement();
+		} catch (NoSuchElementException ex){
+			logger.warning(ex.getMessage());
+			return null;
+		}
+	}
+
+	@Override
+	public Cliente last() {
+		try {
+			return clientes.lastElement();
+		} catch (NoSuchElementException ex){
+			logger.warning(ex.getMessage());
+			return null;
+		}
+	}
+	
 
 	@Override
 	public List<Cliente> findAll() {		
 		return clientes;
 	}
+	
+	@Override
+	public Integer count(){
+		return clientes.size();
+	}
+	
+	public void empty(){
+		clientes.clear();
+		LAST_ID = new AtomicInteger(0);
+	}
+	
 }

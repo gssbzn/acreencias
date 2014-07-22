@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.example.dao.ClienteDAO;
-import com.example.dao.ClienteDAOFactory;
+import com.example.dao.DAOFactory;
 import com.example.model.Cliente;
 
 public class ClientesResourceTest extends JerseyTest {
@@ -26,14 +26,13 @@ public class ClientesResourceTest extends JerseyTest {
 	private static ClienteDAO dao;
 
 	@Override
-    protected Application configure() {
+    protected Application configure() {		
         return new ResourceConfig(ClientesResource.class);
     }
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ClienteDAOFactory factory = new ClienteDAOFactory();
-		dao = factory.createClienteDAO();
+		dao = DAOFactory.getClienteDAO();
 	}
 
 	@AfterClass
@@ -96,7 +95,7 @@ public class ClientesResourceTest extends JerseyTest {
 		target().path("clientes/" + cliente.getId()).request("application/xml").put(Entity.xml(cli), Cliente.class);
 		Cliente cli2 = (Cliente)target().path("clientes/" + cliente.getId()).request().get(Cliente.class);
 		assertEquals(cli.getCedula(), cli2.getCedula());
-		assertEquals(cli.getNombre(), cli2.getNombre());		
+		assertEquals(cli.getNombre(), cli2.getNombre());
 	}
 
 	@Test (expected=WebApplicationException.class)
@@ -107,15 +106,13 @@ public class ClientesResourceTest extends JerseyTest {
 	}
 	
 	private Cliente firstOrCreateCliente() {
-		Cliente c = null;
-		try {
-			c = dao.findAll().get(0);
-		} catch (IndexOutOfBoundsException ex) {
+		Cliente c = dao.first();
+		if (c == null){
 			c = new Cliente();
 			c.setCedula("V-1");
 			c.setNombre("Prueba 1");
 			c = dao.create(c);
-		}		
+		}
 		return c;
 	}
 

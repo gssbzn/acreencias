@@ -12,12 +12,12 @@ import com.example.model.Cliente;
 
 public class ClienteDAOMemoryImplTest {
 	
-	private static ClienteDAO dao;
+	private static ClienteDAOMemoryImpl dao;
+	private Cliente firstCliente; 
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ClienteDAOFactory factory = new ClienteDAOFactory();
-		dao = factory.createClienteDAO();
+		dao = (ClienteDAOMemoryImpl) DAOFactory.getClienteDAO();
 	}
 
 	@AfterClass
@@ -27,13 +27,13 @@ public class ClienteDAOMemoryImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Cliente cliente = new Cliente(1, "Prueba 1", "V-1");
-		dao.create(cliente);
+		firstCliente = new Cliente(1, "Prueba 1", "V-1");
+		dao.create(firstCliente);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		
+		dao.empty();
 	}
 
 	@Test
@@ -42,9 +42,22 @@ public class ClienteDAOMemoryImplTest {
 		cli.setCedula("V-2");
 		cli.setNombre("Prueba 2");
 		Cliente cli2 = dao.create(cli);
+		assertNotNull(cli2.getId());
 		assertEquals(cli.getNombre(), cli2.getNombre());
+		assertEquals(cli.getCedula(), cli2.getCedula());
+		
 	}
-
+	
+	@Test
+	public void testUpdate(){
+		Cliente cliente = dao.first();
+		cliente.setNombre("Prueba");
+		assertTrue(dao.update(cliente));
+		Cliente cli = dao.first();
+		assertEquals(cliente, cli);
+		assertEquals(cliente.getNombre(), cli.getNombre());
+	}
+	
 	@Test
 	public void testFind() {
 		Cliente cli = new Cliente(1, "Prueba 1", "V-1");

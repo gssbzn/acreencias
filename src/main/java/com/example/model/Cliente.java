@@ -7,24 +7,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * 
+ * @author guss
+ *
+ */
 @XmlRootElement
 @XmlType (propOrder={"id","cedula","nombre"})
-public class Cliente implements Serializable {
-
-	/**	 */
-	private static final long serialVersionUID = 1L;
+public final class Cliente implements Model<Integer>, Serializable {	
+    /**	 */
+	private static final long serialVersionUID = -3956424980931876024L;
 	
 	private Integer id;
-    private String nombre;
+	private String nombre;
 	private String cedula;
     private Collection<Cuenta> cuentasCollection;
     
     public Cliente() {
-    	
-    }
-
-    public Cliente(Integer id) {
-        this.setId(id);
     }
 
     public Cliente(Integer id, String nombre, String cedula) {
@@ -33,14 +32,16 @@ public class Cliente implements Serializable {
         this.setCedula(cedula);        
     }
 
+    @Override
 	public Integer getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -65,11 +66,12 @@ public class Cliente implements Serializable {
     public void setCuentasCollection(Collection<Cuenta> cuentasCollection) {
         this.cuentasCollection = cuentasCollection;
     }
-    
-	@Override
+
+    @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+    	final int prime = 31;
+        int hash = 1;
+        hash += prime * hash + (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -80,14 +82,15 @@ public class Cliente implements Serializable {
             return false;
         }
         Cliente other = (Cliente) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.id == null && other.getId() != null) || (this.id != null && !this.id.equals(other.getId()))) {
             return false;
         }
         return true;
     }
-
+    
     @Override
     public String toString() {
         return "Cliente[ id=" + id + " ]";
     }
+	
 }

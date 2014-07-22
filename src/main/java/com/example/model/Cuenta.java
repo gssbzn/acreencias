@@ -4,15 +4,22 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
+/**
+ * 
+ * @author guss
+ *
+ */
 @XmlRootElement
-public class Cuenta implements Serializable {
-
+@XmlType (propOrder={"id","cliente","tipo","saldo"})
+public final class Cuenta implements Model<Integer>, Serializable {
 	/**	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1768584903284441598L;
 	
 	private Integer id;
-	private BigDecimal saldo;
+	private BigDecimal saldo = BigDecimal.ZERO;
+	private String tipo;
 	private Cliente cliente;
 	
 	public Cuenta() {
@@ -22,15 +29,18 @@ public class Cuenta implements Serializable {
         this.setId(id);
     }
     
-    public Cuenta(Integer id, BigDecimal saldo) {
+    public Cuenta(Integer id, BigDecimal saldo, String tipo) {
         this.setId(id);
         this.setSaldo(saldo);
+        this.setTipo(tipo);
     }
 
+    @Override
 	public Integer getId() {
 		return id;
 	}
 
+    @Override
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -43,6 +53,16 @@ public class Cuenta implements Serializable {
 		this.saldo = saldo;
 	}
 
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		if(!TipoCuenta.isValid(tipo))
+			throw new IllegalArgumentException("Tipo de Cuenta Invalido");
+		this.tipo = tipo;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -50,6 +70,14 @@ public class Cuenta implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
+	@Override
+    public int hashCode() {
+    	final int prime = 31;
+        int hash = 1;
+        hash += prime * hash + (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 	
 	@Override
     public boolean equals(Object object) {
