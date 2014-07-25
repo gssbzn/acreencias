@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * 
+ * La clase {@code Cliente} representa un cliente de la compañia.
  * @author Gustavo Bazan
  *
  */
@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 public final class Cliente implements Model<Integer>, Serializable {	
     /**	 */
     private static final long serialVersionUID = -3956424980931876024L;
-
+    
     private Integer id;
     private String nombre;
     private String cedula;
