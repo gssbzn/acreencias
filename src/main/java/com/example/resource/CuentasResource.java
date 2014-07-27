@@ -1,5 +1,6 @@
 package com.example.resource;
 
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,8 +13,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import com.example.dao.ClienteDAO;
 import com.example.dao.CuentaDAO;
@@ -33,12 +37,21 @@ public class CuentasResource {
     private final CuentaDAO cuentaDao;
 
     private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
+    
+    @Context
+    UriInfo uriInfo;
 
     public CuentasResource(){		
         clienteDao = DAOFactory.getClienteDAO();
         cuentaDao = DAOFactory.getCuentaDAO();
     }
 
+    /**
+     * 
+     * @param cliente_id
+     * @param id
+     * @return
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -71,8 +84,10 @@ public class CuentasResource {
             throw new WebApplicationException(404);
     	
         entity.setCliente(cliente);
-    	Cuenta cu = (Cuenta) cuentaDao.create(entity);    	
-        return Response.created(null).entity(cu).build();
+    	Cuenta cu = (Cuenta) cuentaDao.create(entity);
+    	UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+    	URI userUri = ub.path(cu.getId().toString()).build();
+        return Response.created(userUri).entity(cu).build();
     }
     
     @PUT
