@@ -60,7 +60,7 @@ public class ClientesResourceTest extends JerseyTest {
 		Cliente cli = firstOrCreateCliente();
 		//int status = b.get().getStatus();
 		//System.out.println("status=" + status);
-		Cliente c = (Cliente)target().path("clientes/1").request().get(Cliente.class);
+		Cliente c = (Cliente)target().path("clientes/"+cli.getId()).request().get(Cliente.class);
 		//System.out.println(c);
 		assertEquals(cli, c);
 	}

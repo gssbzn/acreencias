@@ -1,5 +1,6 @@
 package com.example.resource;
 
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -12,8 +13,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import com.example.dao.ClienteDAO;
 import com.example.dao.DAOFactory;
@@ -30,6 +34,9 @@ public class ClientesResource {
 
     private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
 
+    @Context
+    UriInfo uriInfo;
+    
     public ClientesResource(){		
         dao = DAOFactory.getClienteDAO();
     }
@@ -38,17 +45,17 @@ public class ClientesResource {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Cliente show(@PathParam("id") Integer id) {	
-		logger.info("SHOW");
-		Cliente cliente = dao.find(id);
-		if(cliente == null)
-			throw new WebApplicationException(404);
-		return cliente;
+        logger.info("SHOW");
+        Cliente cliente = dao.find(id);
+        if(cliente == null)
+            throw new WebApplicationException(404);
+        return cliente;
     }
 
     @GET    
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Cliente> index() {
-    	//logger.info("INDEX");    	
+    	logger.info("INDEX");    	
         return dao.findAll();
     }
     
@@ -58,8 +65,10 @@ public class ClientesResource {
     public Response create(Cliente entity) {
     	logger.info("CREATE");
     	Cliente cli = (Cliente) dao.create(entity);
-    	System.out.println(cli);
-        return Response.created(null).entity(cli).build();
+    	UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+    	URI userUri = ub.path(cli.getId().toString()).build();
+    
+        return Response.created(userUri).entity(cli).build();
     }
     
     @PUT
@@ -68,7 +77,7 @@ public class ClientesResource {
     public void update(@PathParam("id") Integer id, Cliente entity) {
     	logger.info("PUT");
     	if(dao.find(id) == null)
-    		throw new WebApplicationException(404);
+            throw new WebApplicationException(404);
     	entity.setId(id);
         dao.update(entity);
     }

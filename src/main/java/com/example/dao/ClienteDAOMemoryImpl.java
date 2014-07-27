@@ -92,7 +92,6 @@ public class ClienteDAOMemoryImpl implements ClienteDAO {
         }
     }
 
-
     @Override
     public List<Cliente> findAll() {		
         return clientes;

@@ -1,6 +1,9 @@
 package com.example.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 
@@ -57,6 +60,7 @@ public class MovimientoDAOMemoryImplTest {
 		clienteDao.empty();
 		cuentaDao.empty();
 		movimientoDao.empty();
+		
 		
 	}
 	

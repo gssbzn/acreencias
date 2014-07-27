@@ -97,7 +97,8 @@ public class CuentasResource {
     	logger.info("PUT");
     	if(cuentaDao.find(id) == null)
             throw new WebApplicationException(404);
-    	entity.setId(id);
+    	
+        entity.setId(id);
         cuentaDao.update(entity);
     }
     
