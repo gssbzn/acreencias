@@ -19,7 +19,7 @@ import com.example.dao.MovimientoDAO;
 import com.example.model.Cuenta;
 import com.example.model.Movimiento;
 
-@Path("clientes/{cliente_id}/cuentas/{cuentas_id}/movimiento")
+@Path("clientes/{cliente_id}/cuentas/{cuentas_id}/movimientos")
 public class MovimientoResource {
 	private final MovimientoDAO dao;
 	private final CuentaDAO cuentaDAO;
