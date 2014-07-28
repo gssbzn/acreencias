@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.example.model.Cliente;
 import com.example.model.Cuenta;
+import com.example.model.Movimiento;
 import com.example.model.TipoCuenta;
 
 /**
@@ -91,6 +92,15 @@ public class CuentaDAOMemoryImplTest {
 		for(Cuenta cuenta2 : cuentaDao.findAll()){
 			assertEquals(cuenta, cuenta2);
 		}
+	}
+	
+	@Test
+	public void testActualizarCuenta(){
+		Cuenta cuenta = new Cuenta(1,BigDecimal.ZERO,TipoCuenta.ACREENCIA.getValue());
+		Movimiento mov = new Movimiento(1, "+", new BigDecimal(100));
+		mov.setCuenta(cuenta);
+		cuentaDao.actualizarCuenta(mov);
+		assertEquals(new BigDecimal(100), cuenta.getSaldo());
 	}
 	
 }

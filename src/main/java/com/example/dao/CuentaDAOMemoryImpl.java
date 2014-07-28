@@ -1,5 +1,6 @@
 package com.example.dao;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -9,6 +10,7 @@ import java.util.logging.Logger;
 
 import com.example.model.Cliente;
 import com.example.model.Cuenta;
+import com.example.model.Movimiento;
 
 /**
  * 
@@ -118,5 +120,17 @@ public class CuentaDAOMemoryImpl implements CuentaDAO {
     public void empty(){
         cuentas.clear();
         LAST_ID = new AtomicInteger(0);
+    }
+    
+    public void actualizarCuenta(Movimiento mov){
+    	Cuenta cuenta = mov.getCuenta();
+    	BigDecimal saldo = cuenta.getSaldo();
+    	if(mov.getTipo().equals("+")){
+    		saldo = saldo.add(mov.getMonto());
+    	}else if(mov.getTipo().equals("-")) {
+    		saldo = saldo.subtract(mov.getMonto());
+    	}
+    	cuenta.setSaldo(saldo);
+    	update(cuenta);
     }
 }
