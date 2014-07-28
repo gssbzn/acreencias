@@ -1,11 +1,13 @@
 package com.example.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
+import com.example.model.Cuenta;
 import com.example.model.Movimiento;
 
 /**
@@ -105,5 +107,18 @@ public class MovimientoDAOMemoryImpl implements MovimientoDAO {
         movimientos.clear();
         LAST_ID = new AtomicInteger(0);
     }
+
+	@Override
+	public List<Movimiento> findMovimientosCuenta(Integer cuenta_id) {
+		CuentaDAO cuentaDao = DAOFactory.getCuentaDAO();		
+        Cuenta cuenta = cuentaDao.find(cuenta_id);
+        List<Movimiento> movimientosTemp = new  ArrayList<Movimiento>();
+
+        for(Movimiento movimiento : movimientos){
+            if(movimiento.getCuenta().equals(cuenta))
+            	movimientosTemp.add(movimiento);
+        }
+        return movimientosTemp;
+	}
 
 }

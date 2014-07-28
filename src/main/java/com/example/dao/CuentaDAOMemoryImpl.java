@@ -122,6 +122,7 @@ public class CuentaDAOMemoryImpl implements CuentaDAO {
         LAST_ID = new AtomicInteger(0);
     }
     
+    @Override
     public void actualizarCuenta(Movimiento mov){
     	Cuenta cuenta = mov.getCuenta();
     	BigDecimal saldo = cuenta.getSaldo();

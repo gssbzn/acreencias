@@ -34,7 +34,7 @@ public class MovimientoResource {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Movimiento show(@PathParam("id") Integer id) {	
+    public Movimiento show(@PathParam("cuenta_id") Integer cuenta_id, @PathParam("id") Integer id) {	
 		logger.info("SHOW");
 		Movimiento movimiento = dao.find(id);
 		if(movimiento == null)
@@ -44,9 +44,9 @@ public class MovimientoResource {
     
     @GET    
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Movimiento> index() {
+    public List<Movimiento> index(@PathParam("cliente_id") Integer cliente_id, @PathParam("cuenta_id") Integer cuenta_id) {
     	logger.info("SHOW-ALL");    	
-        return dao.findAll();
+        return dao.findMovimientosCuenta(cuenta_id);
     }
     
     @POST    
