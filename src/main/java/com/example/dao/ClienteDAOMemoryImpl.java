@@ -29,7 +29,7 @@ public class ClienteDAOMemoryImpl implements ClienteDAO {
         return INSTANCE;
     }
 	
-    public Integer incrementCount() {
+    private Integer incrementCount() {
         return LAST_ID.incrementAndGet();
     }
 	

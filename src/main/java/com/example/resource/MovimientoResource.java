@@ -1,5 +1,6 @@
 package com.example.resource;
 
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -10,8 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import com.example.dao.ClienteDAO;
 import com.example.dao.CuentaDAO;
@@ -21,16 +25,18 @@ import com.example.model.Cliente;
 import com.example.model.Cuenta;
 import com.example.model.Movimiento;
 
-@Path("clientes/{cliente_id}/cuentas/{cuentas_id}/movimientos")
+@Path("clientes/{cliente_id}/cuentas/{cuenta_id}/movimientos")
 public class MovimientoResource {
+	
 	private final ClienteDAO clienteDao;
 	private final CuentaDAO cuentaDao;
 	private final MovimientoDAO movimientoDao;
 	
-	
-	
 	private static final Logger logger = Logger.getLogger(MovimientoResource.class.toString());
 
+	@Context
+    UriInfo uriInfo;
+	
     public MovimientoResource(){		
         movimientoDao = DAOFactory.getMovimientoDAO();
         clienteDao = DAOFactory.getClienteDAO();
@@ -70,7 +76,10 @@ public class MovimientoResource {
     	logger.info("Nuevo Movimiento creado: Monto: "+mov.getMonto()+" Tipo: "+mov.getTipo()+" Cuenta: "+mov.getCuenta().getId());
     	cuentaDao.actualizarCuenta(mov);
     	logger.info("Saldo Actualizado: "+mov.getCuenta().getSaldo()+" Cuenta id: "+mov.getCuenta().getId());
-        return Response.created(null).entity(mov).build();
+    	
+    	UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+    	URI movUri = ub.path(mov.getId().toString()).build();
+        return Response.created(movUri).entity(mov).build();
     }
     
 

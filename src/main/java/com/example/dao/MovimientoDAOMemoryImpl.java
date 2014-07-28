@@ -22,7 +22,7 @@ public class MovimientoDAOMemoryImpl implements MovimientoDAO {
     private static Vector<Movimiento> movimientos;
     private static AtomicInteger LAST_ID;
 
-    public Integer incrementCount() {
+    private Integer incrementCount() {
         return LAST_ID.incrementAndGet();
     }
 	

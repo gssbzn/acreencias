@@ -32,7 +32,7 @@ public class CuentaDAOMemoryImpl implements CuentaDAO {
         return INSTANCE;
     }
 	
-    public Integer incrementCount() {
+    private Integer incrementCount() {
         return LAST_ID.incrementAndGet();
     }
 
