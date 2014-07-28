@@ -39,7 +39,7 @@ public class CuentasResource {
     private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
     
     @Context
-    UriInfo uriInfo;
+    protected UriInfo uriInfo;
 
     public CuentasResource(){		
         clienteDao = DAOFactory.getClienteDAO();
