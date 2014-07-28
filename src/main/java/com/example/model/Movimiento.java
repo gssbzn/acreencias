@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
+ * La clase {@code Movimiento} representa los movimientos en las cuentas de los clientes
+ * 
+ * <p>Los tipos de cuenta se encuentran definidos en {@link TipoMovimiento}</p>
  * 
  * @author Gustavo Bazan
  *
@@ -43,7 +46,7 @@ public final class Movimiento implements Model<Integer>, Serializable {
     }	
 
     public Cuenta getCuenta() {
-            return cuenta;
+        return cuenta;
     }
 
     public void setCuenta(Cuenta cuenta) {

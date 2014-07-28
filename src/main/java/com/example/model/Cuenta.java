@@ -7,6 +7,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
+ * La clase {@code Cuenta} representa las cuentas que puede tener
+ * el cliente dentro de la compañia.
+ * 
+ * <p>Los tipos de cuenta se encuentran definidos en {@link TipoCuenta}</p>
  * 
  * @author Gustavo Bazan
  *

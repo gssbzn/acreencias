@@ -85,14 +85,6 @@ public class CuentaDAOMemoryImplTest {
 		Cuenta cuenta2 = cuentaDao.find(1);
 		assertEquals(cuenta, cuenta2);
 	}
-
-	@Test
-	public void testFindAll() {
-		Cuenta cuenta = new Cuenta(1,BigDecimal.ZERO,TipoCuenta.ACREENCIA.getValue());
-		for(Cuenta cuenta2 : cuentaDao.findAll()){
-			assertEquals(cuenta, cuenta2);
-		}
-	}
 	
 	@Test
 	public void testActualizarCuenta(){

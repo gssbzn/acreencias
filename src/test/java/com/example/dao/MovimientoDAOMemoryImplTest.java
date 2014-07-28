@@ -1,6 +1,9 @@
 package com.example.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 
@@ -58,6 +61,7 @@ public class MovimientoDAOMemoryImplTest {
 		cuentaDao.empty();
 		movimientoDao.empty();
 		
+		
 	}
 	
 	@Test
@@ -95,14 +99,5 @@ public class MovimientoDAOMemoryImplTest {
 		Movimiento movimiento2 = movimientoDao.find(1);
 		assertEquals(movimiento, movimiento2);
 	}
-
-	@Test
-	public void testFindAll() {
-		Movimiento movimiento = new Movimiento(1,TipoMovimiento.DEPOSITO.getValue(),BigDecimal.ONE);
-		for(Movimiento movimiento2 : movimientoDao.findAll()){
-			assertEquals(movimiento, movimiento2);
-		}
-	}
-
 }
 
