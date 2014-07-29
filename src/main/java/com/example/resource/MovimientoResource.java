@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.CompletionCallback;
+import javax.ws.rs.container.ConnectionCallback;
 import javax.ws.rs.container.Suspended;
 import javax.ws.rs.container.TimeoutHandler;
 import javax.ws.rs.core.Context;
@@ -99,6 +101,26 @@ public class MovimientoResource {
                         .entity("Operation time out.").build());
             }
         });
+    	asyncResponse.register(new CompletionCallback() {
+             @Override
+             public void onComplete(Throwable throwable) {
+                 if (throwable == null) {
+                     // no throwable - the processing ended successfully
+                     // (response already written to the client)
+                    logger.info("Exito!");
+                 } else {
+                     logger.severe("Falla!");
+                 }
+             }
+        });
+    	asyncResponse.register(new ConnectionCallback() {
+			@Override
+			public void onDisconnect(AsyncResponse arg0) {				
+				logger.severe("Conexion perdida!");
+				arg0.cancel();
+				
+			}
+        });
     	asyncResponse.setTimeout(15, TimeUnit.SECONDS);
     	final Cliente cliente = clienteDao.find(cliente_id);		
         final Cuenta cuenta = cuentaDao.find(cuenta_id);
@@ -112,7 +134,14 @@ public class MovimientoResource {
     	new Thread(new Runnable() {   		 
             @Override
             public void run() {
-                asyncResponse.resume(veryExpensiveOperation(mov));
+            	try {
+					this.wait(5000);
+				} catch (InterruptedException e) {
+					
+					e.printStackTrace();
+				}
+            	asyncResponse.resume(veryExpensiveOperation(mov));
+                
             }
      
             private Response veryExpensiveOperation(Movimiento mov) {
