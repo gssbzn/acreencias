@@ -90,7 +90,7 @@ public class MovimientoResource {
     @Path("async")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void createAsync(@Suspended final AsyncResponse asyncResponse, @PathParam("cliente_id") Integer cliente_id, @PathParam("cuenta_id") Integer cuenta_id, final Movimiento entity) {
+    public void createAsync(@Suspended final AsyncResponse asyncResponse, @PathParam("cliente_id") Integer cliente_id, @PathParam("cuenta_id") Integer cuenta_id, Movimiento entity) {
     	logger.info("CREATE");
     	asyncResponse.setTimeoutHandler(new TimeoutHandler() {    		 
             @Override
@@ -104,19 +104,21 @@ public class MovimientoResource {
         final Cuenta cuenta = cuentaDao.find(cuenta_id);
         if(cliente == null || cuenta == null)
             throw new WebApplicationException(404);
-    	new Thread(new Runnable() {
-    		 
+        
+        entity.setCuenta(cuenta);        
+        
+        final UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+     	final Movimiento mov = entity;
+    	new Thread(new Runnable() {   		 
             @Override
             public void run() {
-                asyncResponse.resume(veryExpensiveOperation());
+                asyncResponse.resume(veryExpensiveOperation(mov));
             }
      
-            private Response veryExpensiveOperation() {
-            	entity.setCuenta(cuenta);
-            	Movimiento mov = (Movimiento) movimientoDao.create(entity);
+            private Response veryExpensiveOperation(Movimiento mov) {
+            	mov = (Movimiento) movimientoDao.create(mov);
             	cuentaDao.actualizarCuenta(mov);
-            	UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-             	URI movUri = ub.path(mov.getId().toString()).build();
+            	URI movUri = ub.path(mov.getId().toString()).build();
              	return Response.created(movUri).entity(mov).build();
             }
         }).start();
