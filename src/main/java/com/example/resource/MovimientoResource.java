@@ -135,17 +135,16 @@ public class MovimientoResource {
     	new Thread(new Runnable() {   		 
             @Override
             public void run() {
-            	try {
-					this.wait(5000);
-				} catch (InterruptedException e) {
-					
-					e.printStackTrace();
-				}
             	asyncResponse.resume(veryExpensiveOperation(mov));
                 
             }
      
             private Response veryExpensiveOperation(Movimiento mov) {
+            	try {
+            		Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
             	mov = (Movimiento) movimientoDao.create(mov);
             	cuentaDao.actualizarCuenta(mov);
             	URI movUri = ub.path(mov.getId().toString()).build();
