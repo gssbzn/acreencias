@@ -121,8 +121,8 @@ public class MovimientoResource {
 				arg0.cancel();
 				
 			}
-        });
-    	
+        });    	
+        
     	final Cliente cliente = clienteDao.find(cliente_id);		
         final Cuenta cuenta = cuentaDao.find(cuenta_id);
         if(cliente == null || cuenta == null)
