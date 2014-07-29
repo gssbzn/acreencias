@@ -93,7 +93,8 @@ public class MovimientoResource {
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void createAsync(@Suspended final AsyncResponse asyncResponse, @PathParam("cliente_id") Integer cliente_id, @PathParam("cuenta_id") Integer cuenta_id, Movimiento entity) {
-    	logger.info("CREATE");
+    	logger.info("CREATE-ASYNC");
+    	asyncResponse.setTimeout(15, TimeUnit.SECONDS);
     	asyncResponse.setTimeoutHandler(new TimeoutHandler() {    		 
             @Override
             public void handleTimeout(AsyncResponse asyncResponse) {
@@ -121,7 +122,7 @@ public class MovimientoResource {
 				
 			}
         });
-    	asyncResponse.setTimeout(15, TimeUnit.SECONDS);
+    	
     	final Cliente cliente = clienteDao.find(cliente_id);		
         final Cuenta cuenta = cuentaDao.find(cuenta_id);
         if(cliente == null || cuenta == null)

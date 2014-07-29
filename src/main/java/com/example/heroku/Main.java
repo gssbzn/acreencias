@@ -33,7 +33,7 @@ public class Main {
         root.setResourceBase(webappDirLocation);
 
         server.setHandler(root);
-
+        
         server.start();
         server.join();
     }
