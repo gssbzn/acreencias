@@ -11,6 +11,7 @@
             <param-value>com.example</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
