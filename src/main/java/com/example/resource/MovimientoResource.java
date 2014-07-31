@@ -118,8 +118,6 @@ public class MovimientoResource {
 			@Override
 			public void onDisconnect(AsyncResponse arg0) {				
 				logger.severe("Conexion perdida!");
-				arg0.cancel();
-				
 			}
         });    	
         
@@ -141,7 +139,7 @@ public class MovimientoResource {
      
             private Response veryExpensiveOperation(Movimiento mov) {
             	try {
-            		Thread.sleep(5000);
+            		Thread.sleep(25000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
