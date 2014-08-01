@@ -63,7 +63,11 @@ public class MovimientoResource {
     @GET    
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Movimiento> index(@PathParam("cliente_id") Integer cliente_id, @PathParam("cuenta_id") Integer cuenta_id) {
-    	logger.info("SHOW-ALL");    	
+    	logger.info("SHOW-ALL");
+    	Cliente cliente = clienteDao.find(cliente_id);
+    	Cuenta cuenta = cuentaDao.find(cuenta_id);
+    	if(cliente == null || cuenta == null)
+    		throw new WebApplicationException(404);
         return movimientoDao.findMovimientosCuenta(cuenta_id);
     }
     
@@ -78,11 +82,8 @@ public class MovimientoResource {
             throw new WebApplicationException(404);
     	
         entity.setCuenta(cuenta);
-    	Movimiento mov = (Movimiento) movimientoDao.create(entity);   	
-    	logger.info("Nuevo Movimiento creado: Monto: "+mov.getMonto()+" Tipo: "+mov.getTipo()+" Cuenta: "+mov.getCuenta().getId());
+    	Movimiento mov = (Movimiento) movimientoDao.create(entity);
     	cuentaDao.actualizarCuenta(mov);
-    	logger.info("Saldo Actualizado: "+mov.getCuenta().getSaldo()+" Cuenta id: "+mov.getCuenta().getId());
-    	
     	UriBuilder ub = uriInfo.getAbsolutePathBuilder();
     	URI movUri = ub.path(mov.getId().toString()).build();
         return Response.created(movUri).entity(mov).build();
@@ -92,9 +93,9 @@ public class MovimientoResource {
     @Path("async")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void createAsync(@Suspended final AsyncResponse asyncResponse, @PathParam("cliente_id") Integer cliente_id, @PathParam("cuenta_id") Integer cuenta_id, Movimiento entity) {
+    public void createAsync(@Suspended final AsyncResponse asyncResponse, @PathParam("cliente_id") Integer cliente_id, @PathParam("cuenta_id") Integer cuenta_id, final Movimiento entity) {
     	logger.info("CREATE-ASYNC");
-    	asyncResponse.setTimeout(15, TimeUnit.SECONDS);
+    	asyncResponse.setTimeout(30, TimeUnit.SECONDS);
     	asyncResponse.setTimeoutHandler(new TimeoutHandler() {    		 
             @Override
             public void handleTimeout(AsyncResponse asyncResponse) {
@@ -106,8 +107,6 @@ public class MovimientoResource {
              @Override
              public void onComplete(Throwable throwable) {
                  if (throwable == null) {
-                     // no throwable - the processing ended successfully
-                     // (response already written to the client)
                     logger.info("Exito!");
                  } else {
                      logger.severe("Falla!");
@@ -116,39 +115,36 @@ public class MovimientoResource {
         });
     	asyncResponse.register(new ConnectionCallback() {
 			@Override
-			public void onDisconnect(AsyncResponse arg0) {				
+			public void onDisconnect(AsyncResponse asyncResponse) {
 				logger.severe("Conexion perdida!");
+				asyncResponse.resume(Response.status(Response.Status.GONE)
+                        .entity("Connection lost.").build());
 			}
         });    	
         
-    	final Cliente cliente = clienteDao.find(cliente_id);		
-        final Cuenta cuenta = cuentaDao.find(cuenta_id);
+    	Cliente cliente = clienteDao.find(cliente_id);		
+        Cuenta cuenta = cuentaDao.find(cuenta_id);
         if(cliente == null || cuenta == null)
             throw new WebApplicationException(404);
         
         entity.setCuenta(cuenta);        
         
         final UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-     	final Movimiento mov = entity;
-    	new Thread(new Runnable() {   		 
+     	//final Movimiento mov = entity;
+    	new Thread(){  		 
             @Override
             public void run() {
-            	asyncResponse.resume(veryExpensiveOperation(mov));
-                
-            }
-     
-            private Response veryExpensiveOperation(Movimiento mov) {
+            	Movimiento mov = movimientoDao.create(entity);
+            	cuentaDao.actualizarCuenta(mov);
             	try {
-            		Thread.sleep(25000);
+            		Thread.sleep(60000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-            	mov = (Movimiento) movimientoDao.create(mov);
-            	cuentaDao.actualizarCuenta(mov);
             	URI movUri = ub.path(mov.getId().toString()).build();
-             	return Response.created(movUri).entity(mov).build();
+            	asyncResponse.resume(Response.created(movUri).entity(mov).build());
             }
-        }).start();
+        }.start();
     }
 
 }
