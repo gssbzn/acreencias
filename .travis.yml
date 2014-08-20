@@ -1,8 +1,1 @@
 language: java
-deploy:
-  provider: heroku
-  api_key:
-    secure: dfmUvcmedmWt1KeUZSPe5LNunUCdR6aB2T32MjlB//a3Pv520zo/HJYgT5BxbldDI1UvEBhSNylxPJP15JK0wEQMFkItKmVYhE8UnVfVHi4wQ7aymwJxdhxM0ojn4Hj9D5f6dHW0//iPX7MrCUkNaPpjSgNITWAiRR5xQOuTujw=
-  app: acreencias
-  on:
-    repo: gssbzn/acreencias
