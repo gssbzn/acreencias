@@ -21,7 +21,8 @@ import javax.ws.rs.core.UriInfo;
 
 import com.example.dao.ClienteDAO;
 import com.example.dao.CuentaDAO;
-import com.example.dao.DAOFactory;
+import com.example.factory.DAOFactory;
+import com.example.factory.DAOFactory.DAOTYPE;
 import com.example.model.Cliente;
 import com.example.model.Cuenta;
 
@@ -32,18 +33,18 @@ import com.example.model.Cuenta;
  */
 @Path("clientes/{cliente_id}/cuentas")
 public class CuentasResource {
-
-    private final ClienteDAO clienteDao;
+	/** Logger */
+	private static final Logger logger = Logger.getLogger(ClientesResource.class.getCanonicalName());
+	private final ClienteDAO clienteDao;
     private final CuentaDAO cuentaDao;
-
-    private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
     
     @Context
     protected UriInfo uriInfo;
 
-    public CuentasResource(){		
-        clienteDao = DAOFactory.getClienteDAO();
-        cuentaDao = DAOFactory.getCuentaDAO();
+    public CuentasResource(){
+    	DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOTYPE.MEMORYFACTORY);
+        clienteDao = daoFactory.getClienteDAO();
+        cuentaDao = daoFactory.getCuentaDAO();
     }
 
     /**

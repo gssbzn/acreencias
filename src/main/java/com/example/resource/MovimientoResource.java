@@ -25,28 +25,37 @@ import javax.ws.rs.core.UriInfo;
 
 import com.example.dao.ClienteDAO;
 import com.example.dao.CuentaDAO;
-import com.example.dao.DAOFactory;
 import com.example.dao.MovimientoDAO;
+import com.example.factory.DAOFactory;
+import com.example.factory.DAOFactory.DAOTYPE;
 import com.example.model.Cliente;
 import com.example.model.Cuenta;
 import com.example.model.Movimiento;
 
+/**
+ * Recurso para Movimientos de clientes sobre sus cuentas
+ * 
+ * @author Maria Coelho
+ * @author Gustavo Bazan
+ *
+ */
 @Path("clientes/{cliente_id}/cuentas/{cuenta_id}/movimientos")
 public class MovimientoResource {
+	/** Logger */
+	private static final Logger logger = Logger.getLogger(MovimientoResource.class.getCanonicalName());
 	
 	private final ClienteDAO clienteDao;
 	private final CuentaDAO cuentaDao;
 	private final MovimientoDAO movimientoDao;
-	
-	private static final Logger logger = Logger.getLogger(MovimientoResource.class.toString());
 
 	@Context
 	protected UriInfo uriInfo;
 	
-    public MovimientoResource(){		
-        movimientoDao = DAOFactory.getMovimientoDAO();
-        clienteDao = DAOFactory.getClienteDAO();
-        cuentaDao = DAOFactory.getCuentaDAO();
+    public MovimientoResource(){
+    	DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOTYPE.MEMORYFACTORY);
+        movimientoDao = daoFactory.getMovimientoDAO();
+        clienteDao = daoFactory.getClienteDAO();
+        cuentaDao = daoFactory.getCuentaDAO();
     }
     
     @GET

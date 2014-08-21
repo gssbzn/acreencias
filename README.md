@@ -1,7 +1,6 @@
 Acreencias
 ==========
 
-## Descripcion
 Este es un experimento para [https://jax-rs-spec.java.net/](JAX-RS)
 creando un servicio RESTful con la ayuda de [https://jersey.java.net/](Jersey)
 que permita simular un sistema de acreencias, donde un usuario puede tener 

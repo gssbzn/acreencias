@@ -20,7 +20,8 @@ import org.junit.Test;
 
 import com.example.dao.ClienteDAO;
 import com.example.dao.CuentaDAO;
-import com.example.dao.DAOFactory;
+import com.example.factory.DAOFactory;
+import com.example.factory.DAOFactory.DAOTYPE;
 import com.example.model.Cliente;
 import com.example.model.Cuenta;
 import com.example.model.TipoCuenta;
@@ -42,8 +43,9 @@ public class CuentasResourceTest extends JerseyTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		clienteDao = DAOFactory.getClienteDAO();
-		cuentaDao = DAOFactory.getCuentaDAO();
+		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOTYPE.MEMORYFACTORY);
+		clienteDao = daoFactory.getClienteDAO();
+		cuentaDao = daoFactory.getCuentaDAO();
 	}
 
 	@AfterClass

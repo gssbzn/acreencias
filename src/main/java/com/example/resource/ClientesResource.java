@@ -20,27 +20,36 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.example.dao.ClienteDAO;
-import com.example.dao.DAOFactory;
+import com.example.factory.DAOFactory;
+import com.example.factory.DAOFactory.DAOTYPE;
 import com.example.model.Cliente;
 
 /**
- * 
+ * Servicio REST para clientes
  * @author Gustavo Bazan
  *
  */
 @Path("clientes")
 public class ClientesResource {	
-    private final ClienteDAO dao;
-
-    private static final Logger logger = Logger.getLogger(ClientesResource.class.toString());
+	/** Logger */
+    private static final Logger logger = Logger.getLogger(ClientesResource.class.getCanonicalName());
+    /** DAO Cliente */
+	private final ClienteDAO dao;
 
     @Context
     protected UriInfo uriInfo;
     
-    public ClientesResource(){		
-        dao = DAOFactory.getClienteDAO();
+    public ClientesResource(){
+    	DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOTYPE.MEMORYFACTORY);
+        dao = daoFactory.getClienteDAO();
     }
 
+    /**
+     * Consultar cliente
+     * @param id Id del cliente
+     * @return Cliente solicitado
+     * @throws WebApplicationException con 404 si no existe el cliente
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

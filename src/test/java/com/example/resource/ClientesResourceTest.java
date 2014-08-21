@@ -18,7 +18,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.example.dao.ClienteDAO;
-import com.example.dao.DAOFactory;
+import com.example.factory.DAOFactory;
+import com.example.factory.DAOFactory.DAOTYPE;
 import com.example.model.Cliente;
 
 /**
@@ -37,7 +38,8 @@ public class ClientesResourceTest extends JerseyTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		dao = DAOFactory.getClienteDAO();
+		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOTYPE.MEMORYFACTORY);
+		dao = daoFactory.getClienteDAO();
 	}
 
 	@AfterClass
