@@ -1,8 +1,8 @@
 Acreencias
 ==========
 
-Este es un experimento para [https://jax-rs-spec.java.net/](JAX-RS)
-creando un servicio RESTful con la ayuda de [https://jersey.java.net/](Jersey)
+Este es un experimento para [JAX-RS](https://jax-rs-spec.java.net/)
+creando un servicio RESTful con la ayuda de [Jersey](https://jersey.java.net/)
 que permita simular un sistema de acreencias, donde un usuario puede tener 
 cuentas donde hacer depositos y retiros de dinero.
 
