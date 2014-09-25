@@ -20,11 +20,11 @@ import org.junit.Test;
 
 import com.example.dao.ClienteDAO;
 import com.example.dao.CuentaDAO;
+import com.example.enums.TipoCuenta;
 import com.example.factory.DAOFactory;
 import com.example.factory.DAOFactory.DAOTYPE;
 import com.example.model.Cliente;
 import com.example.model.Cuenta;
-import com.example.model.TipoCuenta;
 
 /**
  * 
